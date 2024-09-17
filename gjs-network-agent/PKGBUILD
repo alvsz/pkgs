@@ -1,0 +1,36 @@
+pkgname=gjs-network-agent
+pkgver=0.1
+pkgrel=1
+pkgdesc="This is a GObject-based library that can be used to implement a NM Network Agent. While it is usable from any language that supports GObject Introspection, it is specifically designed for use with GJS."
+url="https://github.com/alvsz/gjs-network-agent"
+arch=(x86_64)
+license=(GPL2)
+depends=(
+	libnm
+	libsecret
+)
+makedepends=(
+	git
+	meson
+)
+groups=()
+source=("git+${url}.git")
+b2sums=('SKIP')
+
+build() {
+	arch-meson $pkgname build
+	meson compile -C build
+}
+
+check() {
+	meson test -C build --print-errorlogs
+}
+
+package() {
+	meson install -C build --destdir "$pkgdir"
+	mkdir -p "$pkgdir/usr/lib/girepository-1.0"
+	mkdir -p "$pkgdir/usr/share/gir-1.0"
+
+	mv "$pkgdir/usr/share/GjsNetworkAgent-${pkgver}.gir" "$pkgdir/usr/share/gir-1.0"
+	mv "$pkgdir/usr/lib/GjsNetworkAgent-${pkgver}.typelib" "$pkgdir/usr/lib/girepository-1.0"
+}
