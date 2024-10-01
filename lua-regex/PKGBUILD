@@ -1,0 +1,30 @@
+pkgname=lua-regex
+pkgver=0.2.0
+pkgrel=1
+pkgdesc="simple regular expression module for lua"
+url="https://github.com/mah0x211/lua-regex"
+arch=(x86_64)
+license=(MIT X11)
+depends=(
+	lua
+	lua-pcre2
+)
+makedepends=(
+	git
+	luarocks
+)
+groups=()
+source=("git+${url}.git")
+b2sums=('SKIP')
+_rockname="rockspecs/regex-0.2.0-1.rockspec"
+
+prepare() {
+	cd $pkgname
+	git submodule update --init --recursive
+}
+
+package() {
+	cd $pkgname
+	luarocks --tree "$pkgdir/usr/" \
+		make --deps-mode none --no-manifest -- "$_rockname"
+}
