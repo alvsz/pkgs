@@ -1,0 +1,30 @@
+pkgname=lua-xpath
+pkgver=1.3
+pkgrel=0
+pkgdesc="Simple XPath implementation in the Lua programming language."
+url="https://github.com/basiliscos/lua-xpath"
+arch=(x86_64)
+license=(MIT)
+depends=(
+	lua
+	lua-luaexpat
+)
+makedepends=(
+	git
+	luarocks
+)
+groups=()
+source=("git+${url}.git")
+b2sums=('SKIP')
+_rockname="rockspecs/luaxpath-1.3-0.rockspec"
+
+prepare() {
+	cd $pkgname
+	git submodule update --init --recursive
+}
+
+package() {
+	cd $pkgname
+	luarocks --tree "$pkgdir/usr/" \
+		make --deps-mode none --no-manifest -- "$_rockname"
+}

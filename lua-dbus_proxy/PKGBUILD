@@ -1,0 +1,30 @@
+pkgname=lua-dbus_proxy
+pkgver=0.10.3
+pkgrel=2
+pkgdesc="Simple API around GLib's GIO:GDBusProxy built on top of lgi"
+url="https://github.com/stefano-m/lua-dbus_proxy"
+arch=(x86_64)
+license=(Apache-2.0)
+depends=(
+	lua
+	lua-lgi
+)
+makedepends=(
+	git
+	luarocks
+)
+groups=()
+source=("git+${url}.git")
+b2sums=('SKIP')
+_rockname="rockspec/dbus_proxy-0.10.3-2.rockspec"
+
+prepare() {
+	cd $pkgname
+	git submodule update --init --recursive
+}
+
+package() {
+	cd $pkgname
+	luarocks --tree "$pkgdir/usr/" \
+		make --deps-mode none --no-manifest -- "$_rockname"
+}
