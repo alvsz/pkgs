@@ -1,0 +1,29 @@
+pkgname=lua-cjson
+pkgver=2.1.0.14
+pkgrel=1
+pkgdesc="A fast JSON encoding/parsing module"
+url="https://github.com/openresty/lua-cjson"
+arch=(x86_64)
+license=(MIT)
+depends=(
+	lua
+)
+makedepends=(
+	git
+	luarocks
+)
+groups=()
+source=("git+${url}.git")
+b2sums=('SKIP')
+_rockname="lua-cjson-2.1.0.14-1.rockspec"
+
+prepare() {
+	cd $pkgname
+	git submodule update --init --recursive
+}
+
+package() {
+	cd $pkgname
+	luarocks --tree "$pkgdir/usr/" \
+		make --deps-mode none --no-manifest -- "$_rockname"
+}

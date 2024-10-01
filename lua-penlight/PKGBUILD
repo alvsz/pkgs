@@ -1,0 +1,30 @@
+pkgname=lua-penlight
+pkgver=1.14.0
+pkgrel=2
+pkgdesc="Lua utility libraries loosely based on the Python standard libraries"
+url="https://lunarmodules.github.io/Penlight/"
+arch=(x86_64)
+license=(MIT)
+depends=(
+	lua-luafilesystem
+	lua
+)
+makedepends=(
+	git
+	luarocks
+)
+groups=()
+source=("git+https://github.com/lunarmodules/Penlight.git")
+b2sums=('SKIP')
+_rockname="rockspecs/penlight-1.14.0-2.rockspec"
+
+prepare() {
+	cd Penlight
+	git submodule update --init --recursive
+}
+
+package() {
+	cd Penlight
+	luarocks --tree "$pkgdir/usr/" \
+		make --deps-mode none --no-manifest -- "$_rockname"
+}
