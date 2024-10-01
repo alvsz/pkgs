@@ -1,0 +1,30 @@
+pkgname=lua-wau
+pkgver=dev
+pkgrel=1
+pkgdesc="Basic client-side lua libwayland bindings"
+url="https://github.com/Nooo37/wau"
+arch=(x86_64)
+license=()
+depends=(
+	lua
+)
+makedepends=(
+	git
+	luarocks
+)
+groups=()
+source=("git+${url}.git")
+b2sums=('SKIP')
+_rockname="wau-dev-1.rockspec"
+
+prepare() {
+	cd wau
+	git submodule update --init --recursive
+	mv examples example
+}
+
+package() {
+	cd wau
+	luarocks --tree "$pkgdir/usr/" \
+		make --deps-mode none --no-manifest -- "$_rockname"
+}

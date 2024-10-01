@@ -1,0 +1,30 @@
+pkgname=lua-cffi-lua
+pkgver=0.2.3
+pkgrel=1
+pkgdesc="A portable C FFI for Lua 5.1+"
+url="https://github.com/q66/cffi-lua"
+arch=(x86_64)
+license=(MIT)
+depends=(
+	lua
+)
+makedepends=(
+	git
+	meson
+	luarocks
+)
+groups=()
+source=("git+${url}.git")
+b2sums=('SKIP')
+_rockname="cffi-lua-0.2.3-1.rockspec"
+
+prepare() {
+	cd cffi-lua
+	git submodule update --init --recursive
+}
+
+package() {
+	cd cffi-lua
+	luarocks --tree "$pkgdir/usr/" \
+		make --deps-mode none --no-manifest -- "$_rockname"
+}
