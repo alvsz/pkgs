@@ -1,0 +1,30 @@
+pkgname=lua-luasocket
+pkgver=3.1.0
+pkgrel=1
+pkgdesc="Network support for the Lua language"
+url="https://lunarmodules.github.io/luasocket/"
+arch=(x86_64)
+license=(MIT)
+depends=(
+	lua
+)
+makedepends=(
+	git
+	luarocks
+)
+groups=()
+source=("git+https://github.com/lunarmodules/luasocket.git")
+b2sums=('SKIP')
+_rockname="rockspecs/luasocket-3.1.0-1.rockspec"
+
+prepare() {
+	cd luasocket
+	git checkout "v${pkgver}"
+	git submodule update --init --recursive
+}
+
+package() {
+	cd luasocket
+	luarocks --tree "$pkgdir/usr/" \
+		make --deps-mode none --no-manifest -- "$_rockname"
+}
