@@ -1,0 +1,46 @@
+pkgname=zelda3
+pkgver=0.3
+pkgrel=0
+pkgdesc="Zelda3 is a reverse engineered clone of Zelda - A Link to the Past"
+url="https://github.com/snesrev/zelda3"
+arch=(x86_64)
+license=(MIT)
+depends=(
+)
+makedepends=(
+	git
+	make
+	python
+	python-pillow
+	python-yaml
+)
+groups=()
+source=(
+	"git+${url}.git#tag=v0.3"
+	# "$pkgname.svg",
+	# "$pkgname.desktop",
+	"$pkgname.sh",
+	"$pkgname.sfc"
+)
+# source=("git+${url}.git" "$pkgname.svg", "$pkgname.desktop", "$pkgname.sh", "$pkgname.sfc")
+sha512sums=(
+	"SKIP"
+	# "SKIP"
+	# "SKIP"
+	"SKIP"
+	"SKIP"
+)
+
+build() {
+	cd $pkgname
+	make
+}
+
+package() {
+	# install -Dm644 $pkgname.desktop "$pkgdir/usr/share/applications/$pkgname.desktop"
+	# install -Dm644 $pkgname.svg "$pkgdir/usr/share/pixmaps/$pkgname.svg"
+	install -Dm755 $pkgname.sh "$pkgdir/usr/bin/$pkgname"
+	install -Dm755 $pkgname/$pkgname "$pkgdir/usr/share/$pkgname/$pkgname"
+	install -Dm644 $pkgname/$pkgname_assets.dat "$pkgdir/usr/share/$pkgname/$pkgname"
+	install -Dm644 $pkgname/$pkgname.ini "$pkgdir/usr/share/$pkgname/$pkgname.ini"
+}

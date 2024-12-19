@@ -1,6 +1,6 @@
 # Maintainer: Devin J. Pohly <djpohly+arch@gmail.com>
 pkgname=dwl-git
-pkgver=0.5.r18.7eeda5c
+pkgver=0.7.r15.360ea21
 pkgrel=1
 pkgdesc="Simple, hackable dynamic tiling Wayland compositor (dwm for Wayland)"
 arch=('x86_64')
@@ -13,8 +13,9 @@ provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 # append #branch=wlroots-next to build against wlroots-git
 source=('git+https://github.com/alvsz/dwl'
-	config.h)
-sha256sums=('SKIP' 'SKIP')
+	# config.h
+)
+sha256sums=('SKIP')
 
 prepare() {
 	cd "$srcdir/${pkgname%-git}"
@@ -28,6 +29,7 @@ prepare() {
 
 pkgver() {
 	cd "$srcdir/${pkgname%-git}"
+	git fetch --tags origin
 	printf "%s" "$(git describe --long | sed 's/^v//;s/\([^-]*-\)g/r\1/;s/-/./g')"
 }
 
