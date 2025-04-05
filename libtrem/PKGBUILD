@@ -1,4 +1,4 @@
-pkgname=libtrem
+pkgname=libtrem-git
 pkgver=r22.1d1c7a8
 pkgrel=1
 provides=()
@@ -22,7 +22,7 @@ makedepends=(
 	blueprint-compiler
 	vala
 )
-source=("${pkgname}-git::git+${url}.git")
+source=("${pkgname}::git+${url}.git")
 sha256sums=('SKIP')
 
 pkgver() {
