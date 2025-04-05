@@ -1,0 +1,42 @@
+pkgname=libtrem
+pkgver=r22.1d1c7a8
+pkgrel=1
+provides=()
+pkgdesc="um monte de trem for ags"
+arch=(x86_64)
+license=(LGPL-2.1-only)
+url="https://github.com/alvsz/libtrem"
+depends=(
+	glibc
+	libastal-meta
+	glib2
+	geoclue
+	libgweather-4
+	evolution-data-server
+	libical
+)
+makedepends=(
+	meson
+	git
+	gobject-introspection
+	blueprint-compiler
+	vala
+)
+source=("${pkgname}-git::git+${url}.git")
+sha256sums=('SKIP')
+
+pkgver() {
+	cd $pkgname
+	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short=7 HEAD)"
+}
+
+build() {
+	cd $pkgname
+	arch-meson build
+	meson compile -C build
+}
+
+package() {
+	cd $pkgname
+	meson install -C build --destdir "$pkgdir"
+}
