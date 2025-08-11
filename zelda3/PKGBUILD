@@ -18,7 +18,6 @@ makedepends=(
 groups=()
 source=(
 	"git+${url}.git#tag=v0.3"
-	"git+https://github.com/libretro/glsl-shaders"
 	"$pkgname.svg"
 	"$pkgname.desktop"
 	"$pkgname.sh"
@@ -26,10 +25,9 @@ source=(
 )
 sha256sums=(
 	"SKIP"
-	"SKIP"
 	"0fb4c0168d63bc34e1a66f700c93f3d2894a157d77f656350fad37b71ea0b525"
 	"f88b4ac4d5fc2074880be72ca5db39230396967a0c98972850ca0c2c6555f5bc"
-	"2338d9482e56734bb84b02bb6968a422019e2438300ff795a624167d5fe1ddcc"
+	"e6f24d3d20fd536b3da3e44f25d1bb4682e2f6075c90d5ed94ddd56d128a9cad"
 	"66871d66be19ad2c34c927d6b14cd8eb6fc3181965b6e517cb361f7316009cfb"
 )
 
@@ -41,11 +39,12 @@ build() {
 }
 
 package() {
+	mkdir -p "$pkgdir/usr/share/$pkgname"
+
 	install -Dm644 $pkgname.desktop "$pkgdir/usr/share/applications/$pkgname.desktop"
 	install -Dm644 $pkgname.svg "$pkgdir/usr/share/pixmaps/$pkgname.svg"
 	install -Dm755 $pkgname.sh "$pkgdir/usr/bin/$pkgname"
-	install -Dm755 $pkgname/$pkgname "$pkgdir/usr/share/$pkgname/$pkgname"
-	install -Dm644 $pkgname/${pkgname}_assets.dat "$pkgdir/usr/share/$pkgname/$pkgname"
+	install -Dm755 $pkgname/$pkgname "$pkgdir/usr/share/$pkgname"
+	install -Dm644 $pkgname/${pkgname}_assets.dat "$pkgdir/usr/share/$pkgname"
 	install -Dm644 $pkgname/$pkgname.ini "$pkgdir/usr/share/$pkgname/$pkgname.ini"
-	cp -r glsl-shaders "$pkgdir/usr/share/$pkgname/shaders"
 }
