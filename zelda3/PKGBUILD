@@ -18,12 +18,14 @@ makedepends=(
 groups=()
 source=(
 	"git+${url}.git#tag=v0.3"
+	"git+https://github.com/libretro/glsl-shaders"
 	"$pkgname.svg"
 	"$pkgname.desktop"
 	"$pkgname.sh"
 	"local://$pkgname.sfc"
 )
 sha256sums=(
+	"SKIP"
 	"SKIP"
 	"0fb4c0168d63bc34e1a66f700c93f3d2894a157d77f656350fad37b71ea0b525"
 	"f88b4ac4d5fc2074880be72ca5db39230396967a0c98972850ca0c2c6555f5bc"
@@ -47,4 +49,5 @@ package() {
 	install -Dm755 $pkgname/$pkgname "$pkgdir/usr/share/$pkgname"
 	install -Dm644 $pkgname/${pkgname}_assets.dat "$pkgdir/usr/share/$pkgname"
 	install -Dm644 $pkgname/$pkgname.ini "$pkgdir/usr/share/$pkgname/$pkgname.ini"
+	cp -r glsl-shaders "$pkgdir/usr/share/$pkgname/shaders"
 }
