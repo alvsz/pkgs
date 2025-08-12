@@ -1,7 +1,5 @@
 #!/bin/env sh
 
-cd /usr/share/zelda3 || exit
-
 if [ -n "$XDG_CONFIG_HOME" ]; then
 	CONFIG_DIR="$XDG_CONFIG_HOME"
 else
@@ -12,12 +10,18 @@ ZELDA3_DIR="$CONFIG_DIR/zelda3"
 CONFIG_FILE="$ZELDA3_DIR/zelda3.ini"
 
 if [ -e "$ZELDA3_DIR" ]; then
-	if [ -d "$ZELDA3_DIR" ]; then
-		if [ -f "$CONFIG_FILE" ]; then
-			./zelda3 --config "$CONFIG_FILE"
-			exit 0
-		fi
+	if [ -f "$ZELDA3_DIR" ]; then
+		exit 1
 	fi
+else
+	mkdir -p "$ZELDA3_DIR"
 fi
 
-./zelda3
+cd "$ZELDA3_DIR"
+
+if [ -f "$CONFIG_FILE" ]; then
+	/usr/share/zelda3/zelda3 --config "$CONFIG_FILE"
+	exit 0
+fi
+
+/usr/share/zelda3/zelda3
